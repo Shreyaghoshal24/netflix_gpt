@@ -3,8 +3,12 @@
 - Create React app
 - Configured Tailwind css
 - Built header
+- Routing of app
 - Login form
 - Sign up form
+- Form validation
+- useRef Hook
+- Backend(Firebase)
 
 
 
