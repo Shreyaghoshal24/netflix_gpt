@@ -1,73 +1,143 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword,updateProfile,} from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/userSlice";
+import { USER_AVTAR, BACKGROUND_IMAGE } from "../utils/constants";
 
 const Login = () => {
-    const [isSignInForm, setIsSignInForm] = useState(true);
-    const  [errorMessage, setErrorMessage] = useState(null);
+  const [isSignForm, setIsSignForm] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-    const email = useRef(null);
-    const password = useRef(null);
-    const fullName = useRef(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const fullName = useRef(null);
+  const dispatch = useDispatch();
 
-    const handleButtonClick = () => {
-        //Validate form data
-        const message = checkValidData(email.current.value, password.current.value, fullName.current.value);
-        setErrorMessage(message);
+  const handleButtonClick = () => {
+    //validate the form data
+    const name = isSignForm ? "Shreya Ghoshal" : fullName.current.value;
+    const message = checkValidData(
+      email.current.value,
+      password.current.value,
+      name
+    );
+    setErrorMessage(message);
 
-        //Signin/Signup
+    if (message) return;
+
+    if (!isSignForm) {
+      //Signup logic goes here
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+        fullName.current.value
+      )
+        .then((userCrediential) => {
+          const user = userCrediential.user;
+          updateProfile(user, {
+            displayName: fullName.current.value,
+            photoURL: USER_AVTAR,
+          })
+            .then(() => {
+              const { uid, email, password, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  password: password,
+                  photoURL: photoURL,
+                })
+              );
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " - " + errorMessage);
+        });
+    } else {
+      //Signin logic goes here
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " - " + errorMessage);
+        });
     }
 
-    const toggleSignInForm =() =>{
-        setIsSignInForm(!isSignInForm);
-    };
+    //Sign In/ Sign Up
+    // isSignForm ? checkValidData(email.current.value, password.current.value, name) : checkValidData(email.current.value, password.current.value, fullName.current.value);
+  };
 
+  const toggleSignInForm = () => {
+    setIsSignForm(!isSignForm);
+  };
   return (
     <div>
       <Header />
       <div className="absolute">
         <img
-          src="https://miro.medium.com/v2/resize:fit:1400/1*5lyavS59mazOFnb55Z6znQ.png"
-          alt="background_img"
+          src={BACKGROUND_IMAGE}
+          alt="No Images found"
+          className="background-image h-screen object-cover"
         />
       </div>
-      <form onSubmit={(e)=> e.preventDefault()} className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
+      <form
+        className="w-full md:w-4/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <h1 className="font-bold text-3xl py-4">
-            {isSignInForm? "Sign In": "Sign Up"}
+          {isSignForm ? "Sign In" : "Sign Up"}
         </h1>
-        {!isSignInForm && (
-         <input
-          ref={fullName}
-          type="text"
-          placeholder="Full Name"
-          className="p-4 my-4 w-full bg-gray-800"
-        />)
-        }
+        {!isSignForm && (
+          <input
+            type="text"
+            placeholder="Full Name"
+            className="p-4 my-4 w-full bg-gray-700"
+            ref={fullName}
+          />
+        )}
         <input
-          ref={email}
           type="text"
           placeholder="Email Address"
-          className="p-4 my-4 w-full bg-gray-800"
+          className="p-4 my-4 w-full bg-gray-700"
+          ref={email}
         />
         <input
-         ref={password}
           type="password"
           placeholder="Password"
-          className="p-4 my-4 w-full bg-gray-800"
+          className="p-4 my-4 w-full bg-gray-700"
+          ref={password}
         />
-
         <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
-
-        <button className="p-4 my-6 bg-red-700 w-full rounded-lg" onClick={handleButtonClick}> 
-         {isSignInForm? "Sign In": "Sign Up"}
+        <button
+          className="p-6 my-6 bg-red-600 w-full rounded-lg"
+          onClick={handleButtonClick}
+        >
+          {isSignForm ? "Sign In" : "Sign Up"}
         </button>
         <p className="py-4 cursor-pointer" onClick={toggleSignInForm}>
-        {isSignInForm? "New to Netflix? Sign Up Now": "Already registered? Sign In Now."}
-            
-            </p>
+          {isSignForm
+            ? "New to Netflix? Sign Up Now"
+            : "Already registered? Sign In Now"}
+        </p>
       </form>
     </div>
   );
 };
-
 export default Login;
