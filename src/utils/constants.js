@@ -11,7 +11,8 @@ export const BACKGROUND_IMAGE =
   "https://miro.medium.com/v2/resize:fit:1400/1*5lyavS59mazOFnb55Z6znQ.png";
 
 export const USER_AVTAR =
-  "https://www.shutterstock.com/image-vector/vector-emoji-smiling-face-smile-260nw-1271016607.jpg";
+  "https://pbs.twimg.com/media/DN1OYIFX0AAbOMe.jpg"
+ // "https://www.shutterstock.com/image-vector/vector-emoji-smiling-face-smile-260nw-1271016607.jpg";
 
 export const API_OPTIONS = {
   method: "GET",
@@ -26,4 +27,4 @@ export const IMG_CDN = "https://image.tmdb.org/t/p/w500";
 
 export const SUPPORTED_LANGUAGES = [{identifier:"en", name:"English"},{identifier:"hindi", name:"Hindi"},{identifier:"spanish", name:"Spanish"}];
 
-export const openAIKey = openAI;
+export const openAIKey = "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";

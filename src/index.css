@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    font-family: 'Times New Roman', cursive;
+    overflow-x: hidden;
+}
+
+.background-image{
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 150vh;
+    width: 220vh;
+}

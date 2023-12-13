@@ -108,20 +108,20 @@ const Login = () => {
           <input
             type="text"
             placeholder="Full Name"
-            className="p-4 my-4 w-full bg-gray-700"
+            className="p-4 my-4 w-full bg-gray-800"
             ref={fullName}
           />
         )}
         <input
           type="text"
           placeholder="Email Address"
-          className="p-4 my-4 w-full bg-gray-700"
+          className="p-4 my-4 w-full bg-gray-800"
           ref={email}
         />
         <input
           type="password"
           placeholder="Password"
-          className="p-4 my-4 w-full bg-gray-700"
+          className="p-4 my-4 w-full bg-gray-800"
           ref={password}
         />
         <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
