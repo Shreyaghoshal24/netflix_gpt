@@ -35,6 +35,13 @@
 - usePopularMovies Custom hook
 - GPT Search Feature
 - Build Multilanguage page
+- Integration of Open AI APIs
+- GPT Search API call
+- Fetched GPT movie suggestion from tmdb database
+- Created gptSLice and added data
+- Memoization: to control multiple API calls
+- Added .env file with secret key: not shared in git
+- Made application responsive
 
 
 
