@@ -19,7 +19,7 @@ export const API_OPTIONS = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjE4MTAyOGFlMjYzMTdlODZiZWUyZjJlYzBmOTE4YiIsInN1YiI6IjY1Nzk3OTM5MjBlY2FmMDExZGI2NmUxMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rYlQS8t42eDDYzi2MqgD13nJaI24APlbSoGR5cRDVXY",
+      "Bearer" + tmdbAPI,
   },
 };
 
@@ -27,4 +27,4 @@ export const IMG_CDN = "https://image.tmdb.org/t/p/w500";
 
 export const SUPPORTED_LANGUAGES = [{identifier:"en", name:"English"},{identifier:"hindi", name:"Hindi"},{identifier:"spanish", name:"Spanish"}];
 
-export const openAIKey = "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";
+export const openAIKey = openAI;
